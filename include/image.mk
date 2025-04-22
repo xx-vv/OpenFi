@@ -46,7 +46,8 @@ IMG_PREFIX_EXTRA:=$(if $(EXTRA_IMAGE_NAME),$(call sanitize,$(EXTRA_IMAGE_NAME))-
 IMG_PREFIX_VERNUM:=$(if $(CONFIG_VERSION_FILENAMES),$(call sanitize,$(VERSION_NUMBER))-)
 IMG_PREFIX_VERCODE:=$(if $(CONFIG_VERSION_CODE_FILENAMES),$(call sanitize,$(VERSION_CODE))-)
 
-IMG_PREFIX:=$(VERSION_DIST_SANITIZED)-$(IMG_PREFIX_VERNUM)$(IMG_PREFIX_VERCODE)$(IMG_PREFIX_EXTRA)$(BOARD)-$(SUBTARGET)
+#IMG_PREFIX:=$(VERSION_DIST_SANITIZED)-$(IMG_PREFIX_VERNUM)$(IMG_PREFIX_VERCODE)$(IMG_PREFIX_EXTRA)$(BOARD)-$(SUBTARGET)
+IMG_PREFIX:=$(shell TZ='Asia/Shanghai' date "+%Y%m%d_%H%M")-immwrt
 IMG_ROOTFS:=$(IMG_PREFIX)-rootfs
 IMG_COMBINED:=$(IMG_PREFIX)-combined
 ifeq ($(DUMP),)
@@ -461,7 +462,7 @@ define Device/Init
   ##@ Artifacts to build.
   ARTIFACTS :=
   ##@ Device image prefix.
-  DEVICE_IMG_PREFIX := $(IMG_PREFIX)-$(1)
+  DEVICE_IMG_PREFIX := $(1)-$(IMG_PREFIX)
   ##@ Device image name.
   DEVICE_IMG_NAME = $$(DEVICE_IMG_PREFIX)-$$(1)-$$(2)
   ##@ Factory image name.
