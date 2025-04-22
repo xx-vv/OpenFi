@@ -8,6 +8,13 @@ case "$ACTION" in
 pressed)
 	[ -z "$OVERLAY" ] && return 0
 
+        if [ ! -f "/tmp/reset_times" ] ; then
+                echo 0 > /tmp/reset_times &
+        fi
+        reset_times=`cat /tmp/reset_times`
+        let reset_times+=1
+        echo $reset_times > /tmp/reset_times
+
 	return 5
 ;;
 timeout)
@@ -15,12 +22,7 @@ timeout)
 	set_state failsafe
 ;;
 released)
-	if [ "$SEEN" -lt 1 ]
-	then
-		echo "REBOOT" > /dev/console
-		sync
-		reboot
-	elif [ "$SEEN" -ge 5 -a -n "$OVERLAY" ]
+	if [ "$SEEN" -ge 5 -a -n "$OVERLAY" ]
 	then
 		echo "FACTORY RESET" > /dev/console
 		jffs2reset -y && reboot &

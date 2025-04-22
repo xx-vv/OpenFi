@@ -1,0 +1,29 @@
+#!/bin/sh
+
+. /lib/functions.sh
+
+func=`uci get openfi.switch.func`
+
+case "$ACTION" in
+pressed)
+        if [ ! -f "/tmp/switch_times" ] ; then
+                echo 0 > /tmp/switch_times &
+        fi
+        switch_times=`cat /tmp/switch_times`
+        let switch_times+=1
+        echo $switch_times > /tmp/switch_times
+
+	op_switch.sh off
+	return 0
+;;
+timeout)
+	. /etc/diag.sh
+	set_state failsafe
+;;
+released)
+	op_switch.sh on
+	return 0
+;;
+esac
+
+return 0
