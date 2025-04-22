@@ -1,0 +1,73 @@
+<%+header%>
+<script type="text/javascript">//<![CDATA[
+function init_sim_data() {
+	XHR.get('/cgi-bin/luci/admin/modem/qmodem/get_sim_slot', null, 
+		function(x, data) {
+			data = JSON.parse(data);
+			slot=data.result.sim_slot;           
+			$("#slot_switch").val(slot);
+		});
+}
+
+function set_sim_submit() {
+	var sim_slot = $("#slot_switch").val();
+	event.preventDefault();
+    var data = {
+        sim_slot: sim_slot // 将 sim_slot 添加到负载中
+    };
+	$("#loading").show();
+	XHR.post('<%=luci.dispatcher.build_url("admin", "modem", "qmodem", "set_sim_slot")%>', data, 
+		function(x, data) {
+			setTimeout(function() {
+				$("#loading").hide();
+			}, 30000);
+			// data = JSON.parse(data);
+			// ret=data.result.set_sim_slot;   
+			// console.log(ret)
+		});
+	return true;
+}
+
+init_sim_data();
+</script>
+
+<h2 name="content"><%:Dual SIM Management%></h2>
+<form  action="<%=luci.dispatcher.build_url("admin", "modem", "qmodem", "set_sim_slot")%>" method="post" id="sim_form" onsubmit="return set_sim_submit();">
+    <input type="hidden"  id="sim_solt_index" name="sim_slot" value="" />
+<div class="cbi-page-actions left" >
+	<div id="loading" style="display:none">
+		<img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" />
+		<%:Save%>
+	</div>
+	
+
+
+
+	<div class="cbi-map">
+		<div class="cbi-section">
+			<div class="cbi-section-node">
+				<div class="cbi-value">
+					<label class="cbi-value-title"><%:Active SIM Slot%></label>
+					<div class="cbi-value-field">
+					<select class="cbi-input-select" id="slot_switch" >
+						<option value="1">1</option>
+						<option value="2">2</option>
+					</select>
+				</div>
+				<div class="cbi-value-description">
+					<span class="cbi-value-helpicon"><img src="/luci-static/resources/cbi/help.gif"></span>
+					<%=translate("Switching SIM card will reboot the modem")%>
+				  </div>
+				</div>
+			</div>
+	    </div>
+    </div>
+</div>
+
+<div class="cbi-page-actions center" >
+	<input class="cbi-button cbi-button-apply" type="submit" value="<%:Save%>"/>
+</div>
+
+</form>
+
+<%+footer%>
