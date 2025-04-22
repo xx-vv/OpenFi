@@ -54,6 +54,27 @@ To build your own firmware you need a GNU/Linux, BSD or macOS system (case sensi
   - For more details, please see [Build system setup](https://openwrt.org/docs/guide-developer/build-system/install-buildsystem) documentation.
 
   ### Quickstart
+
+  if you only want OpenFi 6C or 6C1
+
+  1. Run `git clone -b openfi6c --single-branch --filter=blob:none https://github.com/OpenWrt01/immortalwrt-mt798x-24.10.git openfi6c_imm24` to clone the source code.
+  2. Run `cd openfi6c_imm24` to enter source directory.
+  3. Run `./scripts/feeds update -a` to obtain all the latest package definitions defined in feeds.conf / feeds.conf.default
+  4. Run `./scripts/feeds install -a` to install symlinks for all obtained packages into package/feeds/
+  5. Copy the configuration file for your device from the `defconfig` directory to the project root directory and rename it `.config`
+
+     ```
+     # MT7981 OpenFi 6c
+     cp defconfig/mt7981-ax3000-openfi6c.config .config
+
+     # MT7981 OpenFi 6c1
+     cp defconfig/mt7981-ax3000-openfi6c1.config .config
+     ```
+
+  6. Run `make` to build your firmware. This will download all sources, build the cross-compile toolchain and then cross-compile the GNU/Linux kernel & all chosen applications for your target system.
+
+  for 2410 branch
+
   1. Run `git clone -b 2410 --single-branch --filter=blob:none https://github.com/padavanonly/immortalwrt-mt798x-24.10 immortalwrt-mt798x-24.10` to clone the source code.
   2. Run `cd immortalwrt-mt798x-24.10` to enter source directory.
   3. Run `./scripts/feeds update -a` to obtain all the latest package definitions defined in feeds.conf / feeds.conf.default
