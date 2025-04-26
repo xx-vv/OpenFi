@@ -17,7 +17,7 @@ OpenFi 6C Travel 5G CPE : Flash 256M, DDR4-1GB, with M.2/TF Slot/USB 3.0/Giga-LA
    ```bash
       cp defconfig/mt7981-ax3000-openfi6c1.config .config
    ```
-- 第二版硬件配置：
+- 第二版硬件配置 （增加一个5G LED， 第二版定义的软件可直接适配第一版本硬件）：
    ```bash
        cp defconfig/mt7981-ax3000-openfi6c.config .config
    ```
