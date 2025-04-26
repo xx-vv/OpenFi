@@ -7,6 +7,23 @@ Compared to upstream, we allow to use (non-upstreamable) modifications/hacks to 
 
 Default login address: http://192.168.6.1 or http://immortalwrt.lan, username: __root__, password: _none_.
 
+
+## How to Build OpenFi 6C Series 
+OpenFi 6C Travel 5G CPE : Flash 256M, DDR4-1GB, with M.2/TF Slot/USB 3.0/Giga-LAN
+
+先选择分支 openfi6c_new
+然后复制配置
+- 第一版硬件配置:
+   ```bash
+      cp defconfig/mt7981-ax3000-openfi6c1.config .config
+   ```
+- 第二版硬件配置：
+   ```bash
+       cp defconfig/mt7981-ax3000-openfi6c.config .config
+   ```
+- Run `make V=s`
+
+
 ## Download
 Built firmware images are available for many architectures and come with a package selection to be used as WiFi home router. To quickly find a factory image usable to migrate from a vendor stock firmware to ImmortalWrt, try the *Firmware Selector*.
 
