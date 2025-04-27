@@ -19,6 +19,9 @@ if [ "$1" == "make" ]; then
 elif [ "$1" == "diff" ]; then
 	echo "Copy coremark Makefile"
 	cp -f make_config/coremark_Makefile feeds/packages/utils/coremark/Makefile
+
+	echo "Copy http.uc"
+	cp -f make_config/http.uc feeds/luci/modules/luci-base/ucode/http.uc
 else
 	echo ""
 	echo "Example:  ./make.sh make"
