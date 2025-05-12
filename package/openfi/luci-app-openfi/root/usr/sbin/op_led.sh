@@ -53,8 +53,29 @@ check_internet()
 		if [ "$internet_status" != "1" ]; then
 			internet_on
 		fi
-	elif [ "$internet_status" != "2" ]; then
-		internet_blink
+	else
+		internet=`ping -W 1 -c 1 114.114.114.114`
+		if [ "$?" == "0" ]; then
+			if [ "$internet_status" != "1" ]; then
+				internet_on
+			fi
+		else
+			internet=`ping -W 1 -c 1 1.1.1.1`
+			if [ "$?" == "0" ]; then
+				if [ "$internet_status" != "1" ]; then
+					internet_on
+				fi
+			else
+				internet=`ping -W 1 -c 1 www.microsoft.com`
+				if [ "$?" == "0" ]; then
+					if [ "$internet_status" != "1" ]; then
+						internet_on
+					fi
+				elif [ "$internet_status" != "2" ]; then
+					internet_blink
+				fi
+			fi
+		fi
 	fi
 }
 
