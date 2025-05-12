@@ -6,9 +6,15 @@ if [ -f /var/run/fan_pid ]; then
 fi
 echo $$ > /var/run/fan_pid
 
+# for openfi 6c, pwm frequency need to be 25KHz, and mt7981 don't support polarity, so when duty_cycle is lower, fan will run faster
+# init pwm0
+echo 0 > /sys/class/pwm/pwmchip0/export
+echo 40000 > /sys/class/pwm/pwmchip0/pwm0/period
+echo 40000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
+
 # init pwm1
 echo 1 > /sys/class/pwm/pwmchip0/export
-# for openfi 6c, pwm frequency need to be 25KHz, and mt7981 don't support polarity, so when duty_cycle is lower, fan will run faster
 echo 40000 > /sys/class/pwm/pwmchip0/pwm1/period
 echo 40000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
 echo 1 > /sys/class/pwm/pwmchip0/pwm1/enable
@@ -99,10 +105,13 @@ while true; do
 		fi
 
 		if [ $fan_level -eq "0" ]; then
+			echo 30000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 			echo 30000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
 		elif [ $fan_level -eq "1" ]; then
+			echo 15000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 			echo 15000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
 		else
+			echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 			echo 0 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
 		fi
 	elif [ "$temp_cpu" -le "$cpu_low" -a "$temp_wifi" -le "$wifi_low" -a "$temp_modem" -le "$modem_low" ]; then
@@ -112,6 +121,7 @@ while true; do
 			logger -t ">>>FAN" "Stop:	cpu:$temp_cpu	wifi:$temp_wifi	modem:$temp_modem"
 			fanStart=0
 		fi
+		echo 40000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 		echo 40000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
 	fi
 

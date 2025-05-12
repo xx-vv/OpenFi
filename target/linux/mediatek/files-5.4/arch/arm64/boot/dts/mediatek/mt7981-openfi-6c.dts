@@ -280,26 +280,12 @@
 
 &pio {
 
-		pwm0_pin: pwm0-pin-g0 {
-				mux {
-						function = "pwm";
-						groups = "pwm0_0";
-				};
-		};
-
-		pwm1_pin: pwm1-pin-g0 {
-				mux {
-						function = "pwm";
-						groups = "pwm1_0";
-				};
-		};
-
-		pwm2_pin: pwm2-pin {
-				mux {
-						function = "pwm";
-						groups = "pwm2";
-				};
-		};
+        pwm_pins: pwm-pins {
+                mux {
+                        function = "pwm";
+                        groups = "pwm0_0", "pwm1_0";
+                };
+        };
 
 	spi0_flash_pins: spi0-pins {
 		mux {
@@ -351,6 +337,6 @@
 
 &pwm {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pwm1_pin>;
+	pinctrl-0 = <&pwm_pins>;
 	status = "okay";
 };
