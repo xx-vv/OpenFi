@@ -6,7 +6,7 @@ config fan 'fan'
 	option modem_temp_high "50"
 	option modem_temp_low "40"
 	option period "10"
-	option level "2"
+	option level "1"
 
 config switch 'switch'
 	option func '0'
