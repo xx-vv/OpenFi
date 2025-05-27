@@ -105,11 +105,11 @@ while true; do
 		fi
 
 		if [ $fan_level -eq "0" ]; then
-			echo 30000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
-			echo 30000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
+			echo 23000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+			echo 23000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
 		elif [ $fan_level -eq "1" ]; then
-			echo 15000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
-			echo 15000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
+			echo 18000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+			echo 18000 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
 		else
 			echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 			echo 0 > /sys/class/pwm/pwmchip0/pwm1/duty_cycle
