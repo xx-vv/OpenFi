@@ -16,6 +16,17 @@ ping_lan() {
 	fi
 }
 
+check_lan() {
+	echo "test lan"
+	speed=`cat /sys/class/net/eth1/speed`
+
+	if [ "$speed" == "1000" ]; then
+		echo -e "\"lan\":\"Pass\"," >> $files
+	else
+		echo -e "\"lan\":\"Fail\"," >> $files
+	fi
+}
+
 ping_wan() {
 	echo "ping wan"
 	if ping -c 1 -W 3 $wan_ip > /dev/null; then
@@ -92,7 +103,8 @@ test_switch() {
 if [ $# == 0 ]; then
 	echo "{" > $files
 	
-	ping_lan
+	#ping_lan
+	check_lan
 	#ping_wan
 	test_sd
 	test_usb
