@@ -30,7 +30,7 @@ detect_mtwifi() {
 					htmode="HE160"
 					htbsscoex="0"
 					ssid="ImmortalWrt-5G"
-					channel="36"
+					channel="64"
 					txpower="100"
 					dbdc_main="0"
 				fi
